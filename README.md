@@ -19,15 +19,15 @@ Note that `matrix-sendmail` completely ignores the provided email addresses; It 
 
 ## Setup procedure
 
-. Read the code and familiarize yourself with it. It's purposely really simple, but you need to be able to grok it so that you can set it up correctly. Different scripts need different levels of filesystem access.
-. Configure `matrix-commander` to generate the credentials.json file and the store directory. 
-. The credentials.json file needs to be moved to $MSM_LIB_DIR (ex. `/var/lib/matrix-sendmail`).
-. The store directory needs to be moved to $MSM_LIB_DIR/store (ex. `/var/lib/matris-sendmail/store`).
-. Copy `config.env` to `/etc/matrix-commander`.
-. Set up a job to periodically run `matrix-sendmail-prep` as the root user. This script will move the queued emails stored at `/var/spool/matrix-sendmail/user/$USER/new` to `/var/spool/matrix-sendmail/system/new`.
-. Set up a job to periodically run `matrix-sendmail-deliver` as a non-root user. This script will send the emails stored at `/var/spool/matrix-sendmail/system/new` using `matrix-commander`. 
-. Copy `sendmail` to a directory in $PATH, such as `/usr/bin`
-. Copy `matrix-sendmail-prep` and `matrix-sendmail-deliver` to `/usr/lib/matrix-sendmail/libexec`. These scripts are not meant to be in $PATH.
+1. Read the code and familiarize yourself with it. It's purposely really simple, but you need to be able to grok it so that you can set it up correctly. Different scripts need different levels of filesystem access.
+2. Configure `matrix-commander` to generate the credentials.json file and the store directory. 
+3. The credentials.json file needs to be moved to $MSM_LIB_DIR (ex. `/var/lib/matrix-sendmail`).
+4. The store directory needs to be moved to $MSM_LIB_DIR/store (ex. `/var/lib/matris-sendmail/store`).
+5. Copy `config.env` to `/etc/matrix-commander`.
+6. Set up a job to periodically run `matrix-sendmail-prep` as the root user. This script will move the queued emails stored at `/var/spool/matrix-sendmail/user/$USER/new` to `/var/spool/matrix-sendmail/system/new`.
+7. Set up a job to periodically run `matrix-sendmail-deliver` as a non-root user. This script will send the emails stored at `/var/spool/matrix-sendmail/system/new` using `matrix-commander`. 
+8. Copy `sendmail` to a directory in $PATH, such as `/usr/bin`
+9. Copy `matrix-sendmail-prep` and `matrix-sendmail-deliver` to `/usr/lib/matrix-sendmail/libexec`. These scripts are not meant to be in $PATH.
 
 ### Permissions
 
