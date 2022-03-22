@@ -18,7 +18,20 @@ The `sendmail` script doesn't actually send anything. Instead, it adds the email
 Note that `matrix-sendmail` completely ignores the provided email addresses; It only delivers the emails to the pre-configured Matrix room, regardless of which user executed `sendmail`.
 
 ## Setup procedure
-. The system admin must configure `matrix-commander` to generate the credentials.json file and the store directory. 
-. The credentials.json file needs to be moved to `/etc/matrix-sendmail`
-. The store directory needs to be moved to `/var/lib/matrix-commander`.. Set up a job to periodically run `matrix-sendmail-deliver`. This script will process the queued emails stored at `/var/spool/matrix-sendmail/$USER/queue`
 
+. Read the code and familiarize yourself with it. It's purposely really simple, but you need to be able to grok it so that you can set it up correctly. Different scripts need different levels of filesystem access.
+. Configure `matrix-commander` to generate the credentials.json file and the store directory. 
+. The credentials.json file needs to be moved to $MSM_LIB_DIR (ex. `/var/lib/matrix-sendmail`).
+. The store directory needs to be moved to $MSM_LIB_DIR/store (ex. `/var/lib/matris-sendmail/store`).
+. Copy `config.env` to `/etc/matrix-commander`.
+. Set up a job to periodically run `matrix-sendmail-prep` as the root user. This script will move the queued emails stored at `/var/spool/matrix-sendmail/user/$USER/new` to `/var/spool/matrix-sendmail/system/new`.
+. Set up a job to periodically run `matrix-sendmail-deliver` as a non-root user. This script will send the emails stored at `/var/spool/matrix-sendmail/system/new` using `matrix-commander`. 
+. Copy `sendmail` to a directory in $PATH, such as `/usr/bin`
+. Copy `matrix-sendmail-prep` and `matrix-sendmail-deliver` to `/usr/lib/matrix-sendmail/libexec`. These scripts are not meant to be in $PATH.
+
+### Permissions
+
+* The user used to execute `matrix-sendmail-deliver` must have read/write access to the `/var/lib/matrix-sendmail`
+* The user used to execute `matrix-sendmail-deliver` must have read access to `/var/spool/matrix-sendmail/system` and `/etc/matrix-commander`.
+* All users who need to run `sendmail` need read access to `/etc/matrix-commander` and read/write access to `/var/spool/user`.
+* The only script which needs to run as root (or some other user with elevated access) is `matrix-sendmail-prep`. That's why the script is short and sweet. For security reasons the script purposely does not source `/etc/matrix-sendmail`, so you need to provide the required environment variables before running the script.

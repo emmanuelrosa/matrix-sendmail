@@ -1,0 +1,11 @@
+#! /usr/bin/bash
+
+source /etc/matrix-sendmail/config.env
+MY_SPOOL_DIR="$MSM_SPOOL_DIR/user/$USER"
+
+mkdir -p $MY_SPOOL_DIR/tmp
+mkdir -p $MY_SPOOL_DIR/new
+
+message=$(mktemp -p $MY_SPOOL_DIR/tmp $(date +%F-%H-%M-%S-XXXXXXXX))
+cat /dev/stdin > $message
+mv $message $MY_SPOOL_DIR/new/ 

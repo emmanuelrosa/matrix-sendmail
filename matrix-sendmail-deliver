@@ -1,0 +1,19 @@
+#! /usr/bin/bash
+
+source /etc/matrix-sendmail/config.env
+
+MSM_LIB_DIR=/var/lib/matrix-sendmail
+for f in $(find $MSM_SPOOL_DIR/system/new -type f)
+do
+  error_log=$(mktemp)
+  matrix-commander -c $MSM_LIB_DIR/credentials.json -s $MSM_LIB_DIR/store --log-level ERROR < $f >$error_log
+  
+  if [ -s $error_log ]
+  then
+    cat $error_log
+    rm $error_log
+  else
+    rm $f
+    rm $error_log
+  fi
+done
