@@ -1,6 +1,7 @@
 #! /usr/bin/bash
 
 mkdir -p $MSM_SPOOL_DIR/system/new
+chown $MSM_DELIVERY_USER:$MSM_DELIVERY_GROUP $MSM_SPOOL_DIR/system/new
 
 for f in $(find $MSM_SPOOL_DIR/user/*/new -type f)
 do
