@@ -8,7 +8,7 @@ do
   mv -v $f $MSM_SPOOL_DIR/system/new
 done
 
-if [ $(ls $MSM_SPOOL_DIR/system/new) ]
+if [ "$(ls $MSM_SPOOL_DIR/system/new)" != "" ]
 then
   chown $MSM_DELIVERY_USER:$MSM_DELIVERY_GROUP $MSM_SPOOL_DIR/system/new/*
 fi
