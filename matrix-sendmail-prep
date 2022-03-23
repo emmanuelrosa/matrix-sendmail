@@ -8,4 +8,6 @@ do
   mv -v $f $MSM_SPOOL_DIR/system/new
 done
 
-chown $MSM_DELIVERY_USER:$MSM_DELIVERY_GROUP $MSM_SPOOL_DIR/system/new/*
+if [ -d $MSM_SPOOL_DIR/system/new ] then
+  chown $MSM_DELIVERY_USER:$MSM_DELIVERY_GROUP $MSM_SPOOL_DIR/system/new/*
+fi
