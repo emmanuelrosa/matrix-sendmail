@@ -1,0 +1,16 @@
+[Unit]
+After=network.target
+Description=matrix-sendmail delivery service
+
+[Service]
+Environment="MSM_DELIVERY_GROUP=msm"
+Environment="MSM_DELIVERY_USER=msm"
+Environment="MSM_LIB_DIR=/var/lib/matrix-sendmail"
+Environment="MSM_SPOOL_DIR=/var/spool/matrix-sendmail"
+
+ExecStart=/lib/matrix-sendmail/libexec/matrix-sendmail-deliver
+ExecStartPre=+/lib/matrix-sendmail/libexec/matrix-sendmail-prep
+Group=msm
+Type=oneshot
+User=msm
+

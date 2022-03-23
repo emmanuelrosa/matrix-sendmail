@@ -35,3 +35,5 @@ Note that `matrix-sendmail` completely ignores the provided email addresses; It 
 * The user used to execute `matrix-sendmail-deliver` must have read access to `/var/spool/matrix-sendmail/system` and `/etc/matrix-commander`.
 * All users who need to run `sendmail` need read access to `/etc/matrix-commander` and read/write access to `/var/spool/user`.
 * The only script which needs to run as root (or some other user with elevated access) is `matrix-sendmail-prep`. That's why the script is short and sweet. For security reasons the script purposely does not source `/etc/matrix-sendmail`, so you need to provide the required environment variables before running the script.
+
+Take at look at the included systemd service and timer examples to get an idea of how to set this up.

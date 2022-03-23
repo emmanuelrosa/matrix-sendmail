@@ -1,0 +1,6 @@
+[Unit]
+Description=Timer to deliver email via matrix-sendmail.
+
+[Timer]
+OnUnitActiveSec=10m
+
