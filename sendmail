@@ -8,4 +8,15 @@ mkdir -p $MY_SPOOL_DIR/new
 
 message=$(mktemp -p $MY_SPOOL_DIR/tmp $(date +%F-%H-%M-%S-XXXXXXXX))
 cat /dev/stdin > $message
+
+# If the encoding is base64, decode into plain text
+if [ "$(grep 'Content-Transfer-Encoding: base64' $message)" != "" ] 
+then 
+  tmpMessage=$(mktemp -p $MY_SPOOL_DIR/tmp $(date +%F-%H-%M-%S-XXXXXXXX))
+  sed -e '/^$/,$d' < $message > $tmpMessage
+  echo "" >> $tmpMessage
+  sed -e '1,/^To\:/d' < $message | base64 -d >> $tmpMessage
+  mv $tmpMessage $message
+fi
+
 mv $message $MY_SPOOL_DIR/new/ 
