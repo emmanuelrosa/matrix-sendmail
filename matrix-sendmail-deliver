@@ -5,7 +5,7 @@ source /etc/matrix-sendmail/config.env
 MSM_LIB_DIR=/var/lib/matrix-sendmail
 for f in $(find $MSM_SPOOL_DIR/system/new -type f)
 do
-  matrix-commander -c $MSM_LIB_DIR/credentials.json -s $MSM_LIB_DIR/store
+  matrix-commander -c $MSM_LIB_DIR/credentials.json -s $MSM_LIB_DIR/store < $f
   ret=$?
   
   if [ $ret -eq 0 ]
