@@ -5,7 +5,13 @@ chown $MSM_DELIVERY_USER:$MSM_DELIVERY_GROUP $MSM_SPOOL_DIR/system/new
 
 for f in $(find $MSM_SPOOL_DIR/user/*/new -type f)
 do
-  mv -v $f $MSM_SPOOL_DIR/system/new
+  if [ "$MSM_DELIVERY_BATCHING" == "0" ]
+  then
+    mv -v $f $MSM_SPOOL_DIR/system/new
+  else
+    cat $f >> $MSM_SPOOL_DIR/system/new/batch
+    rm $f
+  fi
 done
 
 if [ "$(ls $MSM_SPOOL_DIR/system/new)" != "" ]
